@@ -11,6 +11,7 @@ Routes
 */
 router.post('/signup', userController.signup);
 router.post('/login', userController.login);
+router.get('/see', userController.seeUsers);
 
 /*
 Exports

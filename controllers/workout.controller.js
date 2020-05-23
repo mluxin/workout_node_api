@@ -25,8 +25,8 @@ CRUD: Get all the workout
 */
   exports.getAllWorkouts = (req, res, next) => {
     workoutModel.find()
-      .then( (workouts) => {  res.status(200).json(workouts)} )
-      .catch( (error) => {res.status(400).json({ error:error })} );
+      .then( (workouts) => { res.status(200).json(workouts)} )
+      .catch( (error) => { res.status(400).json({ error:error })} );
   };
 //
 

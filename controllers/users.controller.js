@@ -23,10 +23,10 @@ exports.signup = (req, res, next) => {
       });
         user.save()
         .then(() => res.status(201).json({ message: 'Utilisateur créer'}) )
-        .catch(error => res.status(400).json({ error }) );
+        .catch(error => res.status(400).json({ error : 'Utilisateur non créer' }) );
     })
 
-    .catch(error => res.status(500).json({ error }) );
+    .catch(error => res.status(500).json({ error : 'Oops'}) );
 };
 
 
@@ -60,3 +60,14 @@ exports.login = (req, res, next) => {
 };
 
 //Parameters for the token : data you want to encode (payload) + secret key for encoding + config argument
+
+
+/*
+CRUD: Get all users
+*/
+exports.seeUsers = (req, res, next) => {
+  User.find()
+    .then( (users) => {  res.status(200).json(users)} )
+    .catch( (error) => {res.status(400).json({ error:error })} );
+};
+//
