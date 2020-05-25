@@ -60,6 +60,12 @@ exports.login = (req, res, next) => {
 
 //Parameters for the token : data you want to encode (payload) + secret key for encoding + config argument
 
+/* exports.logout = (req, res, next) => {
+    req.logout();
+    res.clearCookie('token');
+    req.session.destroy();
+    res.redirect('/');
+}; */
 
 /*
 CRUD: Get all users

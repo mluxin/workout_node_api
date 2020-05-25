@@ -11,7 +11,8 @@ Routes
 */
 router.post('/signup', userController.signup);
 router.post('/login', userController.login);
-router.get('/see', userController.seeUsers);
+/* router.get('/logout', userController.logout); */
+router.get('/all', userController.seeUsers);
 
 /*
 Exports
