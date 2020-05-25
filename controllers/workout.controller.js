@@ -47,6 +47,7 @@ CRUD: Update a workout
     const workout = new workoutModel({
       _id: req.params.id,
       title: req.body.title,
+      description: req.body.description,
       userId: req.body.userId
     });
 

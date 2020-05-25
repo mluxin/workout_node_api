@@ -48,7 +48,7 @@ class ServerClass{
 
     config(){
 
-      // Set auth router
+      // Set routers
       const userRoutes = require('./routers/user.router');
       const workoutRoutes = require('./routers/workout.router');
       server.use('/api/workout', workoutRoutes);

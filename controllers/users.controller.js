@@ -16,14 +16,13 @@ exports.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10) // 10=how many rounds you execute the hash
 
     // Create and Save in th db a new user with a crypted password
-    .then(hash => {
-      const user = new User ({
-        email: req.body.email,
-        password: hash,
-      });
-        user.save()
-        .then(() => res.status(201).json({ message: 'Utilisateur créer'}) )
-        .catch(error => res.status(400).json({ error : 'Utilisateur non créer' }) );
+    .then(hashedPassword => {
+        req.body.password = hashedPassword;
+
+        // Save user data
+        User.create(req.body)
+        .then(() => res.status(201).json({ message: 'Utilisateur crée'}) )
+        .catch(error => res.status(400).json({ error : 'Utilisateur non crée' }) );
     })
 
     .catch(error => res.status(500).json({ error : 'Oops'}) );
