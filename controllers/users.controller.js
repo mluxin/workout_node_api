@@ -5,6 +5,8 @@ const bcrypt = require ('bcrypt');
 const jwt = require ('jsonwebtoken');
 
 const User = require('../models/user.schema');
+const Practice = require('../models/practice.schema');
+const Workout = require('../models/workout.schema');
 
 /*
 
@@ -44,13 +46,36 @@ exports.login = (req, res, next) => {
           if (!valid) {
             return res.status(401).json({ error: 'Mot de passe incorrect !' });
           }
-          res.status(200).json({
-            userId: user._id,
-            token: jwt.sign(
-              { userId: user._id },
-              'RANDOM_TOKEN_SECRET',
-              { expiresIn: '24h' }
-            )
+
+          Promise.all([
+            Practice.find({ userId: user._id}),
+            Workout.find({ userId: user._id})
+          ])
+          .then((apiResponse) => {
+            return res.status(201).json({
+              message: 'User, Practice et Workout trouvés',
+              user,
+              practices:apiResponse[0],
+              workouts:apiResponse[1],
+              token: jwt.sign(
+                { userId: user._id },
+                'RANDOM_TOKEN_SECRET',
+                { expiresIn: '24h' }
+              )
+            })
+          })
+          .catch((apiResponse) => {
+            return res.status(400).json({
+              message: 'Elements non trouvés',
+              user,
+              practices:null,
+              workouts: null,
+              token: jwt.sign(
+                { userId: user._id },
+                'RANDOM_TOKEN_SECRET',
+                { expiresIn: '24h' }
+              )
+            })
           });
         })
         .catch(error => res.status(500).json({ error }));
@@ -60,19 +85,12 @@ exports.login = (req, res, next) => {
 
 //Parameters for the token : data you want to encode (payload) + secret key for encoding + config argument
 
-/* exports.logout = (req, res, next) => {
-    req.logout();
-    res.clearCookie('token');
-    req.session.destroy();
-    res.redirect('/');
-}; */
-
 /*
 CRUD: Get all users
 */
 exports.seeUsers = (req, res, next) => {
   User.find()
-    .then( (users) => {  res.status(200).json(users)} )
+    .then( (users) => { res.status(200).json(users)} )
     .catch( (error) => {res.status(400).json({ error:error })} );
 };
 //

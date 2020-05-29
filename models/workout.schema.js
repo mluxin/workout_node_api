@@ -13,12 +13,13 @@ const workoutSchema = new Schema({
   intensity: { type: String, required: true },
   mood: { type: String, required: true },
   practiceId: { type: String, required: true },
+  userId: { type: String, required: true },
 });
 
 
 /*
 Export
 */
-const MyModel = mongoose.model('Workout', workoutSchema);
+const MyModel = mongoose.model('workout', workoutSchema);
 module.exports = MyModel;
 //

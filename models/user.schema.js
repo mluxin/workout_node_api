@@ -7,6 +7,7 @@ const { Schema } = mongoose;
 /* Schema
 */
 const userSchema = new Schema({
+  nom: {type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
 });
@@ -17,6 +18,6 @@ userSchema.plugin(uniqueValidator);
 /*
 Export
 */
-const MyModel = mongoose.model('User', userSchema);
+const MyModel = mongoose.model('user', userSchema);
 module.exports = MyModel;
 //

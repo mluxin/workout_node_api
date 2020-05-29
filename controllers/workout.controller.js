@@ -11,7 +11,12 @@ CRUD: Create a workout
 
     const workout = new workoutModel ({
       title: req.body.title,
-      description: req.body.description,
+      date: req.body.date,
+      duration: req.body.duration,
+      comment: req.body.comment,
+      intensity: req.body.intensity,
+      mood: req.body.mood,
+      practiceId: req.body.practiceId,
       userId: req.body.userId
     });
     workout.save()
@@ -47,7 +52,12 @@ CRUD: Update a workout
     const workout = new workoutModel({
       _id: req.params.id,
       title: req.body.title,
-      description: req.body.description,
+      date: req.body.date,
+      duration: req.body.duration,
+      comment: req.body.comment,
+      intensity: req.body.intensity,
+      mood: req.body.mood,
+      practiceId: req.body.practiceId,
       userId: req.body.userId
     });
 

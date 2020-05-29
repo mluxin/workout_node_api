@@ -50,9 +50,13 @@ class ServerClass{
 
       // Set routers
       const userRoutes = require('./routers/user.router');
+      const practiceRoutes = require('./routers/practice.router');
       const workoutRoutes = require('./routers/workout.router');
-      server.use('/api/workout', workoutRoutes);
+
       server.use('/api/auth', userRoutes);
+      server.use('/api/practice', practiceRoutes);
+      server.use('/api/workout', workoutRoutes);
+
 
       // Set front router
       server.get('/*',  (req, res) => res.render('index') );
