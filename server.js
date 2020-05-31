@@ -51,10 +51,12 @@ class ServerClass{
       // Set routers
       const userRoutes = require('./routers/user.router');
       const practiceRoutes = require('./routers/practice.router');
+      const goalRoutes = require('./routers/goal.router');
       const workoutRoutes = require('./routers/workout.router');
 
       server.use('/api/auth', userRoutes);
       server.use('/api/practice', practiceRoutes);
+      server.use('/api/goal', goalRoutes);
       server.use('/api/workout', workoutRoutes);
 
 
