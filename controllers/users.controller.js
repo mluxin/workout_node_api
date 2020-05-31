@@ -6,6 +6,7 @@ const jwt = require ('jsonwebtoken');
 
 const User = require('../models/user.schema');
 const Practice = require('../models/practice.schema');
+const Goal = require('../models/goal.schema');
 const Workout = require('../models/workout.schema');
 
 /*
@@ -49,14 +50,16 @@ exports.login = (req, res, next) => {
 
           Promise.all([
             Practice.find({ userId: user._id}),
+            Goal.find({ userId: user._id}),
             Workout.find({ userId: user._id})
           ])
           .then((apiResponse) => {
             return res.status(201).json({
-              message: 'User, Practice et Workout trouvés',
+              message: "Pratiques, objectifs et entrainements en lien avec l'utilisateur",
               user,
               practices:apiResponse[0],
-              workouts:apiResponse[1],
+              goals:apiResponse[1],
+              workouts:apiResponse[2],
               token: jwt.sign(
                 { userId: user._id },
                 'RANDOM_TOKEN_SECRET',
@@ -69,6 +72,7 @@ exports.login = (req, res, next) => {
               message: 'Elements non trouvés',
               user,
               practices:null,
+              goals:null,
               workouts: null,
               token: jwt.sign(
                 { userId: user._id },
