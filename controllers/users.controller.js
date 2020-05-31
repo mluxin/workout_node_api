@@ -56,10 +56,10 @@ exports.login = (req, res, next) => {
           .then((apiResponse) => {
             return res.status(201).json({
               message: "Pratiques, objectifs et entrainements en lien avec l'utilisateur",
-              user,
               practices:apiResponse[0],
               goals:apiResponse[1],
               workouts:apiResponse[2],
+              user,
               token: jwt.sign(
                 { userId: user._id },
                 'RANDOM_TOKEN_SECRET',
@@ -70,10 +70,10 @@ exports.login = (req, res, next) => {
           .catch((apiResponse) => {
             return res.status(400).json({
               message: 'Elements non trouvés',
-              user,
               practices:null,
               goals:null,
               workouts: null,
+              user,
               token: jwt.sign(
                 { userId: user._id },
                 'RANDOM_TOKEN_SECRET',

@@ -2,6 +2,7 @@
 Imports
 */
 const goalModel = require('../models/goal.schema');
+const Practice = require('../models/practice.schema');
 
 /*
 CRUD: Create a goal
@@ -36,7 +37,24 @@ CRUD: Get one goal
 */
 exports.getOneGoal = (req, res, next) => {
   goalModel.findOne( { _id: req.params.id} )
-    .then(goal => res.status(200).json(goal))
+
+    .then(goal => {
+      Promise.all([
+        Practice.find({ goalId: goal._id })
+      ])
+      .then((apiResponse) => {
+        return res.status(201).json({
+          message: 'Objectifs et entrainements en lien avec la pratique',
+          practices:apiResponse[0]
+        })
+      })
+      .catch((apiResponse) => {
+        return res.status(400).json({
+          message: 'Elements non trouvés',
+          practice:null
+        })
+      });
+    })
     .catch(error => res.status(404).json({ error }));
 };
 //

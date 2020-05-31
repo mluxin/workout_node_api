@@ -14,6 +14,7 @@ exports.createPractice = (req, res, next) => {
 
   const practice = new practiceModel ({
     sport: req.body.sport,
+    goalId: req.body.goalId,
     userId: req.body.userId,
   });
   practice.save()
@@ -38,7 +39,7 @@ CRUD: Get one practice
 exports.getOnePractice = (req, res, next) => {
   practiceModel.findOne( { _id: req.params.id} )
 
-  .then(practice => {
+    .then(practice => {
       Promise.all([
         Goal.find({ practiceId: practice._id }),
         Workout.find({ practiceId: practice._id })
@@ -69,6 +70,7 @@ exports.updatePractice = (req, res, next) => {
   const practice = new practiceModel({
     _id: req.params.id,
     sport: req.body.sport,
+    goalId: req.body.goalId,
     userId: req.body.userId,
   });
 
