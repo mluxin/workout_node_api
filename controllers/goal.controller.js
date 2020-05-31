@@ -44,7 +44,7 @@ exports.getOneGoal = (req, res, next) => {
       ])
       .then((apiResponse) => {
         return res.status(201).json({
-          message: 'Objectifs et entrainements en lien avec la pratique',
+          message: "Pratique en lien avec l'objectif",
           practices:apiResponse[0]
         })
       })

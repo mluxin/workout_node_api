@@ -2,6 +2,7 @@
 Imports
 */
 const workoutModel = require('../models/workout.schema');
+const Practice = require('../models/practice.schema');
 
 /*
 CRUD: Create a workout
@@ -30,8 +31,8 @@ CRUD: Get all the workout
 */
   exports.getAllWorkouts = (req, res, next) => {
     workoutModel.find()
-      .then( (workouts) => { res.status(200).json(workouts)} )
-      .catch( (error) => { res.status(400).json({ error:error })} );
+      .then( (workouts) => {res.status(200).json(workouts)} )
+      .catch( (error) => {res.status(400).json({ error:error })} );
   };
 //
 
