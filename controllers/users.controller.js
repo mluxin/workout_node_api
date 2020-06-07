@@ -98,3 +98,13 @@ exports.seeUsers = (req, res, next) => {
     .catch( (error) => {res.status(400).json({ error:error })} );
 };
 //
+
+/*
+CRUD: detelete a user
+*/
+exports.deleteUser = (req, res, next) => {
+  User.deleteOne({ _id: req.params.id})
+    .then(() => res.status(201).json({ message : 'Utilisateur supprimé !' }))
+    .catch(error => res.status(400).json({ error:error }));
+};
+//
