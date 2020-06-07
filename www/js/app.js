@@ -11,7 +11,7 @@ const displayConnectionForm = () => {
     document.getElementById('loginForm').classList.remove('hidden');
   };
 
-// REGISTER AND LOGIN
+// REGISTER
 const register = (formTag, emailTag, passwordTag, nameTag) => {
     // get form
     document.querySelector(formTag).addEventListener('submit', event => {
@@ -41,6 +41,26 @@ const register = (formTag, emailTag, passwordTag, nameTag) => {
   };
 //
 
+// LOGIN
+const login = (formTag, emailTag, passwordTag) => {
+document.querySelector(formTag).addEventListener('submit', event => {
+    event.preventDefault();
+
+    new FETCHrequest(
+    apiUrl + '/auth/login',
+    'POST',
+    {
+        email: document.querySelector(emailTag).value,
+        password: document.querySelector(passwordTag).value,
+    }
+    )
+    .sendRequest()
+    .then( jsonData => console.log(jsonData))
+    .catch( jsonError => console.log(jsonError))
+})
+};
+//
+
 
 /*
 Attendre le chargement du DOM
@@ -53,5 +73,11 @@ document.addEventListener('DOMContentLoaded', () => {
         '#registerForm [name="password"]',
         '#registerForm [name="name"]'
     );
+    login(
+        '#loginForm',
+        '#loginForm [name="email"]',
+        '#loginForm [name="password"]'
+    );
+
 })
 //

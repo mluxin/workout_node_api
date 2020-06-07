@@ -10,9 +10,9 @@ const Goal = require('../models/goal.schema');
 const Workout = require('../models/workout.schema');
 
 /*
-
 Methods
 */
+
 exports.signup = (req, res, next) => {
 
   // Password crypt
@@ -86,8 +86,21 @@ exports.login = (req, res, next) => {
     })
     .catch(error => res.status(500).json({ error }));
 };
-
 //Parameters for the token : data you want to encode (payload) + secret key for encoding + config argument
+
+exports.connectedUser = (req, res, next) => {
+  User.findById(req.userId, {password: 0}, (err, user) => {
+    if (err) {
+      return res.status(500).send({ message: "Problem finding the user" });
+    }
+    if (!user) {
+      return res.status(404).send({ message:'No user found' });
+    }
+    else {
+      res.status(200).send({ message: 'User found', data: user });
+    }
+  });
+}
 
 /*
 CRUD: Get all users
