@@ -63,53 +63,52 @@ exports.login = (req, res, next) => {
 //Parameters for the token : data you want to encode (payload) + secret key for encoding + config argument
 
 
-exports.connectedUser = (req, res, next) => {
-  User.findById(req.body._id)
-  .then(user => {
-    if (!user) {
-      return res.status(401).json({ error: 'Utilisateur non trouvé !' });
+exports.connectedUser = (req, res) => {
+
+  User.findById(req.userId, (err, user) => {
+      if (err) {
+        return res.status(500).send({ message : "Pb finding user" });
+      }
+      if (!user){
+        return res.status(404).send({ message : "User not found" });
+      }
+      else {
+        Promise.all([
+          Practice.find({ userId: user._id}),
+          Goal.find({ userId: user._id}),
+          Workout.find({ userId: user._id})
+        ])
+        .then((apiResponse) => {
+          return res.status(201).json({
+            message: "Pratiques, objectifs et entrainements en lien avec l'utilisateur",
+            practices:apiResponse[0],
+            goals:apiResponse[1],
+            workouts:apiResponse[2],
+            user,
+            token: jwt.sign(
+              { userId: user._id },
+              'RANDOM_TOKEN_SECRET',
+              { expiresIn: '24h' }
+            )
+          })
+        })
+        .catch((apiResponse) => {
+          return res.status(400).json({
+            message: 'Elements non trouvés',
+            practices:null,
+            goals:null,
+            workouts: null,
+            user,
+            token: jwt.sign(
+              { userId: user._id },
+              'RANDOM_TOKEN_SECRET',
+              { expiresIn: '24h' }
+            )
+          })
+        });
+      }
     }
-    res.status(200).json({
-      userId: user._id,
-      token: jwt.sign(
-        { userId: user._id },
-        'RANDOM_TOKEN_SECRET',
-        { expiresIn: '24h' }
-      )
-    });
-
-
-      /* Promise.all([
-        Practice.find({ userId: user._id}),
-        Goal.find({ userId: user._id}),
-        Workout.find({ userId: user._id})
-      ])
-      .then((apiResponse) => {
-        return res.status(201).json({
-          message: "Pratiques, objectifs et entrainements en lien avec l'utilisateur",
-          practices:apiResponse[0],
-          goals:apiResponse[1],
-          workouts:apiResponse[2],
-          user,
-          token
-        })
-      })
-      .catch((apiResponse) => {
-        return res.status(400).json({
-          message: 'Elements non trouvés',
-          practices:null,
-          goals:null,
-          workouts: null,
-          user,
-          token
-        })
-      }); */
-    })
-  .catch(error => res.status(500).json({ error }));
-  };
-/*   .catch(error => res.status(500).json({ error }));
-}; */
-
+  )};
 
 /*
 CRUD: Get all users

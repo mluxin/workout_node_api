@@ -59,6 +59,7 @@ document.querySelector(formTag).addEventListener('submit', event => {
         localStorage.setItem('token', jsonData.token);
         userAccount();
         console.log(jsonData);
+        console.log(userAccount());
        })
     .catch( jsonError => console.log(jsonError))
     })
@@ -69,13 +70,16 @@ document.querySelector(formTag).addEventListener('submit', event => {
 // User Account
 const userAccount = () => {
     new FETCHrequest(
-      apiUrl + '/me',
+      apiUrl + '/auth/me',
       'GET',
       null,
       localStorage.getItem('token')
     )
     .sendRequest()
-    .then( jsonData => console.log(jsonData))
+    .then( jsonData => {
+        document.getElementById('hello').classList.remove('hidden');
+        console.log(jsonData);
+    })
     .catch( jsonError => console.log(jsonError))
 };
 //
@@ -83,6 +87,7 @@ const userAccount = () => {
 /*
 Attendre le chargement du DOM
 */
+
 document.addEventListener('DOMContentLoaded', () => {
 
     register(
