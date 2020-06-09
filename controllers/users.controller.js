@@ -69,14 +69,17 @@ exports.connectedUser = (req, res, next) => {
     if (!user) {
       return res.status(401).json({ error: 'Utilisateur non trouvé !' });
     }
+    res.status(200).json({
+      userId: user._id,
+      token: jwt.sign(
+        { userId: user._id },
+        'RANDOM_TOKEN_SECRET',
+        { expiresIn: '24h' }
+      )
+    });
 
-    /* User.findOne ({token: req.body.token})
-    .then( token => {
-      if (!token) {
-        return res.status(500).send({ message: "Problem finding the user" });
-      } */
 
-      Promise.all([
+      /* Promise.all([
         Practice.find({ userId: user._id}),
         Goal.find({ userId: user._id}),
         Workout.find({ userId: user._id})
@@ -100,7 +103,7 @@ exports.connectedUser = (req, res, next) => {
           user,
           token
         })
-      });
+      }); */
     })
   .catch(error => res.status(500).json({ error }));
   };

@@ -9,7 +9,7 @@ Exports
   module.exports = (req, res, next) => {
     // Get back token in header Authorization
     try {
-      const token = req.headers['x-access-token'];
+      const token = req.headers['x-access-token'] || req.headers['authorization'];
       const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
       const userId = decodedToken.userId;
 

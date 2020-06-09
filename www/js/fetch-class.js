@@ -1,6 +1,6 @@
 class FETCHrequest {
 
-  constructor(url, requestType, data, token = null) {
+  constructor(url, requestType, data = null, token = null) {
       this.url = url;
       this.requestType = requestType;
       this.data = data;
@@ -11,7 +11,7 @@ class FETCHrequest {
           method: requestType,
           headers: {
               'Content-Type': 'application/json',
-              'x-access-token': token
+              'x-access-token': this.token
           }
       };
 
@@ -22,6 +22,7 @@ class FETCHrequest {
   }
 
   sendRequest(){
+
       return new Promise( (resolve, reject) => {
           fetch( this.url, this.fetchOptions )
           .then( fetchResponse => {

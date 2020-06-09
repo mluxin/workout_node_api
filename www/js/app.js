@@ -42,7 +42,7 @@ const register = (formTag, emailTag, passwordTag, nameTag) => {
 //
 
 // LOGIN
-const login = (formTag, emailTag, passwordTag) => {
+const login = (formTag, emailTag, passwordTag, token) => {
 document.querySelector(formTag).addEventListener('submit', event => {
     event.preventDefault();
 
@@ -51,16 +51,18 @@ document.querySelector(formTag).addEventListener('submit', event => {
     'POST',
     {
         email: document.querySelector(emailTag).value,
-        password: document.querySelector(passwordTag).value,
+        password: document.querySelector(passwordTag).value
     }
     )
     .sendRequest()
     .then( jsonData => {
         localStorage.setItem('token', jsonData.token);
         userAccount();
+        console.log(jsonData);
        })
     .catch( jsonError => console.log(jsonError))
     })
+
 };
 //
 
@@ -68,8 +70,9 @@ document.querySelector(formTag).addEventListener('submit', event => {
 const userAccount = () => {
     new FETCHrequest(
       apiUrl + '/me',
-      'POST',
-      { token: localStorage.getItem('token') },
+      'GET',
+      null,
+      localStorage.getItem('token')
     )
     .sendRequest()
     .then( jsonData => console.log(jsonData))
