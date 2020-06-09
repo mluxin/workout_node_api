@@ -47,39 +47,13 @@ exports.login = (req, res, next) => {
           if (!valid) {
             return res.status(401).json({ error: 'Mot de passe incorrect !' });
           }
-
-          Promise.all([
-            Practice.find({ userId: user._id}),
-            Goal.find({ userId: user._id}),
-            Workout.find({ userId: user._id})
-          ])
-          .then((apiResponse) => {
-            return res.status(201).json({
-              message: "Pratiques, objectifs et entrainements en lien avec l'utilisateur",
-              practices:apiResponse[0],
-              goals:apiResponse[1],
-              workouts:apiResponse[2],
-              user,
-              token: jwt.sign(
-                { userId: user._id },
-                'RANDOM_TOKEN_SECRET',
-                { expiresIn: '24h' }
-              )
-            })
-          })
-          .catch((apiResponse) => {
-            return res.status(400).json({
-              message: 'Elements non trouvés',
-              practices:null,
-              goals:null,
-              workouts: null,
-              user,
-              token: jwt.sign(
-                { userId: user._id },
-                'RANDOM_TOKEN_SECRET',
-                { expiresIn: '24h' }
-              )
-            })
+          res.status(200).json({
+            userId: user._id,
+            token: jwt.sign(
+              { userId: user._id },
+              'RANDOM_TOKEN_SECRET',
+              { expiresIn: '24h' }
+            )
           });
         })
         .catch(error => res.status(500).json({ error }));
@@ -88,19 +62,51 @@ exports.login = (req, res, next) => {
 };
 //Parameters for the token : data you want to encode (payload) + secret key for encoding + config argument
 
+
 exports.connectedUser = (req, res, next) => {
-  User.findById(req.userId, {password: 0}, (err, user) => {
-    if (err) {
-      return res.status(500).send({ message: "Problem finding the user" });
-    }
+  User.findById(req.body._id)
+  .then(user => {
     if (!user) {
-      return res.status(404).send({ message:'No user found' });
+      return res.status(401).json({ error: 'Utilisateur non trouvé !' });
     }
-    else {
-      res.status(200).send({ message: 'User found', data: user });
-    }
-  });
-}
+
+    /* User.findOne ({token: req.body.token})
+    .then( token => {
+      if (!token) {
+        return res.status(500).send({ message: "Problem finding the user" });
+      } */
+
+      Promise.all([
+        Practice.find({ userId: user._id}),
+        Goal.find({ userId: user._id}),
+        Workout.find({ userId: user._id})
+      ])
+      .then((apiResponse) => {
+        return res.status(201).json({
+          message: "Pratiques, objectifs et entrainements en lien avec l'utilisateur",
+          practices:apiResponse[0],
+          goals:apiResponse[1],
+          workouts:apiResponse[2],
+          user,
+          token
+        })
+      })
+      .catch((apiResponse) => {
+        return res.status(400).json({
+          message: 'Elements non trouvés',
+          practices:null,
+          goals:null,
+          workouts: null,
+          user,
+          token
+        })
+      });
+    })
+  .catch(error => res.status(500).json({ error }));
+  };
+/*   .catch(error => res.status(500).json({ error }));
+}; */
+
 
 /*
 CRUD: Get all users

@@ -1,15 +1,17 @@
 class FETCHrequest {
 
-  constructor(url, requestType, data = null) {
+  constructor(url, requestType, data, token = null) {
       this.url = url;
       this.requestType = requestType;
       this.data = data;
+      this.token = token
 
       // Définition du header de la requête
       this.fetchOptions = {
           method: requestType,
           headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              'x-access-token': token
           }
       };
 

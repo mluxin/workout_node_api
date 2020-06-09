@@ -55,12 +55,27 @@ document.querySelector(formTag).addEventListener('submit', event => {
     }
     )
     .sendRequest()
-    .then( jsonData => console.log(jsonData))
+    .then( jsonData => {
+        localStorage.setItem('token', jsonData.token);
+        userAccount();
+       })
     .catch( jsonError => console.log(jsonError))
-})
+    })
 };
 //
 
+// User Account
+const userAccount = () => {
+    new FETCHrequest(
+      apiUrl + '/me',
+      'POST',
+      { token: localStorage.getItem('token') },
+    )
+    .sendRequest()
+    .then( jsonData => console.log(jsonData))
+    .catch( jsonError => console.log(jsonError))
+};
+//
 
 /*
 Attendre le chargement du DOM
