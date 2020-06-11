@@ -25,7 +25,8 @@ Exports
           });
         }
         else {
-          req.userId = decoded.id;
+          req.userId = decoded.userId;
+          /* console.log(decoded); */
           next();
         }
       });

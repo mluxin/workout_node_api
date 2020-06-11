@@ -10,8 +10,16 @@ const workoutSchema = new Schema({
   date: { type: Date, required: true },
   duration: { type: Number, required: true },
   comment: { type: String, required: false },
-  intensity: { type: String, required: true },
-  mood: { type: String, required: true },
+  intensity: {
+    type: String,
+    enum: ["calme", "modéré", "élevé"],
+    required: true
+  },
+  mood: {
+    type: String,
+    enum: ["bof", "cool", "on fire"],
+    required: true
+  },
   practiceId: { type: String, required: true },
   userId: { type: String, required: true },
 });

@@ -70,7 +70,7 @@ exports.connectedUser = (req, res) => {
         return res.status(500).send({ message : "Pb finding user" });
       }
       if (!user){
-        return res.status(404).send({ message : "User not found" });
+        return res.status(400).send({ message : "User not found" });
       }
       else {
         Promise.all([

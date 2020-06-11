@@ -9,10 +9,10 @@ FONCTIONS
 const displayConnectionForm = () => {
     document.getElementById('registerForm').classList.remove('hidden');
     document.getElementById('loginForm').classList.remove('hidden');
-  };
+};
 
 // REGISTER
-const register = (formTag, emailTag, passwordTag, nameTag) => {
+const register = (formTag, nameTag, emailTag, passwordTag) => {
     // get form
     document.querySelector(formTag).addEventListener('submit', event => {
         event.preventDefault();
@@ -58,8 +58,6 @@ document.querySelector(formTag).addEventListener('submit', event => {
     .then( jsonData => {
         localStorage.setItem('token', jsonData.token);
         userAccount();
-        console.log(jsonData);
-        console.log(userAccount());
        })
     .catch( jsonError => console.log(jsonError))
     })
@@ -90,11 +88,22 @@ Attendre le chargement du DOM
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    if(localStorage.getItem('token') !== null){
+        // Récupérer info user avec le token
+        userAccount();
+    }
+    else{
+        // Afficher les formulaires
+        document.querySelector('#registerForm').classList.remove('hidden');
+        document.querySelector('#loginForm').classList.remove('hidden');
+        displayConnectionForm();
+    }
+
     register(
         '#registerForm',
+        '#registerForm [name="name"]',
         '#registerForm [name="email"]',
         '#registerForm [name="password"]',
-        '#registerForm [name="name"]'
     );
     login(
         '#loginForm',
