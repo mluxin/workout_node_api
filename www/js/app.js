@@ -15,6 +15,7 @@ const displayConnectionForm = () => {
 const register = (formTag, nameTag, emailTag, passwordTag) => {
     // get form
     document.querySelector(formTag).addEventListener('submit', event => {
+        console.log('click login');
         event.preventDefault();
 
       new FETCHrequest(
@@ -75,6 +76,9 @@ const userAccount = () => {
     )
     .sendRequest()
     .then( jsonData => {
+        document.getElementById('connect').classList.add('hidden');
+        document.getElementById('registerForm').classList.add('hidden');
+        document.getElementById('loginForm').classList.add('hidden');
         document.getElementById('hello').classList.remove('hidden');
         console.log(jsonData);
     })
@@ -92,8 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Récupérer info user avec le token
         userAccount();
     }
-    else{
-        // Afficher les formulaires
+    else {
         document.querySelector('#registerForm').classList.remove('hidden');
         document.querySelector('#loginForm').classList.remove('hidden');
         displayConnectionForm();
