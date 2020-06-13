@@ -13,7 +13,7 @@
     </nav>
   </header>
   <main>
-    <section>
+    <article>
       <div>
         <button id="connect" onclick="displayConnectionForm()">Se connecter</button>
       </div>
@@ -22,17 +22,31 @@
             <input type="text" name="name" required minlength="2" placeholder="Name">
             <input type="text" name="email" required minlength="5" placeholder="Email">
             <input type="password" name="password" required minlength="5" placeholder="Password">
-            <button type="submit">Register</button>
+            <button type="submit">Créer</button>
       </form>
       <div id="registerAdded"></div>
       <form action="#" id="loginForm" class="hidden">
-          <h2>User already ? Log to your journeys</h2>
+          <h2>Déjà inscrit ? Connecter vous</h2>
           <input type="text" name="email" required minlength="5" placeholder="Your email">
           <input type="password" name="password" required minlength="5" placeholder="Your password">
-          <button type="submit">Login</button>
+          <button type="submit">Connecter</button>
       </form>
-    </section>
-    <p class="hidden" id="hello">hello you</p>
+    </article>
+    <article id="welcome" class="hidden">
+      <h2>Bienvenue sur [BLABLA]</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis convallis velit nec purus ultrices accumsan. Fusce non purus semper, hendrerit elit aliquet, cursus sem. Morbi ultricies lorem tincidunt nisi laoreet vehicula. Suspendisse iaculis diam a nibh faucibus tincidunt.</p>
+      <h3>Commencez !</h3>
+      <button onclick="displayPracticeForm()">Créer une pratique</button>
+    </article>
+    <article>
+      <section>
+        <form action="#" id="practiceForm" class="hidden">
+          <h2>Selectionner une pratique sportive</h2>
+          <input type="text" name="practice" required minlength="2" placeholder="Yoga, cycling, boxe..." value="yoga">
+          <button type="submit">Enregistrer</button>
+        </form>
+      </section>
+    </article>
   </main>
   <script src="js/app.js"></script>
   <script src="js/fetch-class.js"></script>

@@ -6,84 +6,137 @@ DECLARATIONS
 /*
 FONCTIONS
 */
-const displayConnectionForm = () => {
-    document.getElementById('registerForm').classList.remove('hidden');
-    document.getElementById('loginForm').classList.remove('hidden');
-};
+
+    const displayConnectionForm = () => {
+        document.getElementById('registerForm').classList.remove('hidden');
+        document.getElementById('loginForm').classList.remove('hidden');
+    };
 
 // REGISTER
-const register = (formTag, nameTag, emailTag, passwordTag) => {
-    // get form
-    document.querySelector(formTag).addEventListener('submit', event => {
-        console.log('click login');
-        event.preventDefault();
+    const register = (formTag, nameTag, emailTag, passwordTag) => {
+        // get form
+        document.querySelector(formTag).addEventListener('submit', event => {
+            event.preventDefault();
 
-      new FETCHrequest(
-        apiUrl + '/auth/signup',
-        'POST',
-        {
-            name: document.querySelector(nameTag).value,
-            email: document.querySelector(emailTag).value,
-            password: document.querySelector(passwordTag).value
-        }
-      )
-      .sendRequest()
-      .then(userRegistered())
-      .catch(jsonError => console.log(jsonError))
-    })
-  };
+        new FETCHrequest(
+            apiUrl + '/auth/signup',
+            'POST',
+            {
+                name: document.querySelector(nameTag).value,
+                email: document.querySelector(emailTag).value,
+                password: document.querySelector(passwordTag).value
+            }
+        )
+        .sendRequest()
+        .then(userRegistered())
+        .catch(jsonError => console.log(jsonError))
+        })
+    };
 
-  const userRegistered = () => {
-    registerAdded.innerHTML += `
-    <p> You've been well registered.<br/><span>Please log you in to access your session</span></p>
-    `;
-    document.getElementById('registerForm').classList.add('hidden');
-    document.getElementById('registerAdded').classList.add('show');
-  };
+    /* const userRegistered = () => {
+        registerAdded.innerHTML += `
+        <p> You've been well registered.<br/><span>Please log you in to access your session</span></p>
+        `;
+        document.getElementById('registerForm').classList.add('hidden');
+        document.getElementById('registerAdded').classList.add('show');
+    }; */
 //
 
 // LOGIN
-const login = (formTag, emailTag, passwordTag, token) => {
-document.querySelector(formTag).addEventListener('submit', event => {
-    event.preventDefault();
+    const login = (formTag, emailTag, passwordTag, token) => {
+    document.querySelector(formTag).addEventListener('submit', event => {
+        event.preventDefault();
 
-    new FETCHrequest(
-    apiUrl + '/auth/login',
-    'POST',
-    {
-        email: document.querySelector(emailTag).value,
-        password: document.querySelector(passwordTag).value
-    }
-    )
-    .sendRequest()
-    .then( jsonData => {
-        localStorage.setItem('token', jsonData.token);
-        userAccount();
-       })
-    .catch( jsonError => console.log(jsonError))
-    })
+        new FETCHrequest(
+        apiUrl + '/auth/login',
+        'POST',
+        {
+            email: document.querySelector(emailTag).value,
+            password: document.querySelector(passwordTag).value
+        }
+        )
+        .sendRequest()
+        .then( jsonData => {
+            localStorage.setItem('token', jsonData.token);
+            userAccount();
+        })
+        .catch( jsonError => console.log(jsonError))
+        })
 
-};
+    };
 //
 
 // User Account
-const userAccount = () => {
-    new FETCHrequest(
-      apiUrl + '/auth/me',
-      'GET',
-      null,
-      localStorage.getItem('token')
-    )
-    .sendRequest()
-    .then( jsonData => {
-        document.getElementById('connect').classList.add('hidden');
-        document.getElementById('registerForm').classList.add('hidden');
-        document.getElementById('loginForm').classList.add('hidden');
-        document.getElementById('hello').classList.remove('hidden');
-        console.log(jsonData);
-    })
-    .catch( jsonError => console.log(jsonError))
-};
+    const userAccount = () => {
+        new FETCHrequest(
+        apiUrl + '/auth/me',
+        'GET',
+        null,
+        localStorage.getItem('token')
+        )
+        .sendRequest()
+        .then( jsonData => {
+            document.getElementById('connect').classList.add('hidden');
+            document.getElementById('registerForm').classList.add('hidden');
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('welcome').classList.remove('hidden');
+            document.getElementById('practiceForm').classList.remove('hidden');
+            console.log(jsonData);
+
+            if(document.getElementById('practiceForm').className != 'hidden') {
+                createPractice(jsonData);
+            }
+        })
+        .catch( jsonError => console.log(jsonError))
+    };
+//
+
+/* // Display Practices by user
+    const practices = collection => {
+        practicesUl.innerHTML = '';
+
+        for (let i=0; i < collection.data.favorite.length; i++){
+        practicesUl.innerHTML += `
+            <div>
+                <li>${collection.data.favorite[i].title}
+                </li>
+            </div>
+        `;
+        document.getElementById('displaySearchSection').classList.add('hidden');
+    };
+// */
+
+// Create a practice
+
+    // Display creation form
+    const displayPracticeForm = () => {
+        document.getElementById('practiceForm').classList.remove('hidden');
+        document.getElementById('welcome').classList.add('hidden');
+    };
+
+    const createPractice = data => {
+
+        const formTag = document.querySelector('#practiceForm');
+        const practiceTag = document.querySelector('#practiceForm [name="practice"]');
+
+        // get form
+        formTag.addEventListener('submit', event => {
+            event.preventDefault();
+
+        new FETCHrequest(
+            apiUrl + '/practice/create',
+            'POST',
+            {
+                sport: practiceTag.value,
+                goalId: data.goals.label,
+                userId: data.user._id
+            }
+        )
+        .sendRequest()
+        .then(jsonData => console.log(jsonData))
+        .catch(jsonError => console.log(jsonError))
+        })
+    };
 //
 
 /*
@@ -91,6 +144,9 @@ Attendre le chargement du DOM
 */
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    // Create a method if there is no practice = display button to create
+    // If there is alreade a practice = display the practice and new practice button
 
     if(localStorage.getItem('token') !== null){
         // Récupérer info user avec le token
@@ -106,13 +162,12 @@ document.addEventListener('DOMContentLoaded', () => {
         '#registerForm',
         '#registerForm [name="name"]',
         '#registerForm [name="email"]',
-        '#registerForm [name="password"]',
+        '#registerForm [name="password"]'
     );
     login(
         '#loginForm',
         '#loginForm [name="email"]',
         '#loginForm [name="password"]'
     );
-
 })
 //
