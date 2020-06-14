@@ -143,7 +143,7 @@ FONCTIONS
         for (let i=0; i < collection.practices.length; i++){
         practicesUl.innerHTML += `
             <div>
-                <li><button onclick="moreAboutPractice()">${collection.practices[i].sport}</button></li>
+                <li><button onclick="moreAboutPractice()" practice-id="${collection.practices[i]._id}" class="practice-id">${collection.practices[i].sport}</button></li>
             </div>
         `;
         };
