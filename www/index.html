@@ -32,23 +32,41 @@
           <button type="submit">Connecter</button>
       </form>
     </article>
-    <article id="welcome" class="hidden">
-      <h2>Bienvenue sur [BLABLA]</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis convallis velit nec purus ultrices accumsan. Fusce non purus semper, hendrerit elit aliquet, cursus sem. Morbi ultricies lorem tincidunt nisi laoreet vehicula. Suspendisse iaculis diam a nibh faucibus tincidunt.</p>
-    </article>
-    <article id="practices">
+    <article id="practices" class="hidden">
       <h3>Mes pratiques</h3>
-      <ul id="practicesUl">
-      </ul>
+      <ul id="practicesUl"></ul>
       <button onclick="displayPracticeForm()">Ajouter une pratique</button>
+      <section id="createPractice" class="hidden">
+          <form action="#" id="practiceForm" class="hidden">
+            <p>Renseignez une pratique sportive</p>
+            <input type="text" name="practice" required minlength="2" placeholder="Yoga, cycling, boxe..." value="yoga">
+            <button type="submit">Enregistrer</button>
+          </form>
+      </section>
     </article>
-    <article>
-      <section>
-        <form action="#" id="practiceForm" class="hidden">
-          <p>Renseignez une pratique sportive</p>
-          <input type="text" name="practice" required minlength="2" placeholder="Yoga, cycling, boxe..." value="yoga">
-          <button type="submit">Enregistrer</button>
-        </form>
+    <article id="goals" class="hidden">
+      <h3>Mes Objectifs</h3>
+      <ul id="goalsUl"></ul>
+      <button onclick="displayGoalForm()">Ajouter un objectif</button>
+      <section id="createGoal" class="hidden">
+          <form action="#" id="goalForm" class="hidden">
+            <p>Quels sont vos objectifs pour cette pratique ?</p>
+            <input type="text" name="goal" required minlength="2" placeholder="Grand écart, endurance, choré ...">
+            <p>Où en êtes-vous ?</p>
+            <div>
+              <input type="radio" name="status" id="notbegun" value="pas commencé">
+              <label for="notbegun">Pas commencé</label>
+            </div>
+            <div>
+              <input type="radio" name="status" id="inprogress" value="en cours">
+              <label for="inprogress">Progress</label>
+            </div>
+            <div>
+              <input type="radio" name="status" id="finished" value="terminé">
+              <label for="finished">Terminé</label>
+            </div>
+            <button type="submit">Enregistrer</button>
+          </form>
       </section>
     </article>
   </main>

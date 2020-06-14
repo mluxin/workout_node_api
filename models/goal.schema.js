@@ -12,7 +12,7 @@ const goalSchema = new Schema({
     enum: ["pas commencé", "en cours", "terminé"],
     required: true
   },
-  practiceId: { type: String },
+  practiceId: { type: String, required: true},
   userId: { type: String, required: true },
 });
 

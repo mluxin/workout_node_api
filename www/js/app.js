@@ -7,6 +7,10 @@ DECLARATIONS
 FONCTIONS
 */
 
+/* ---------------------------------------------------------------------------------------------------- */
+/* USER CONNECTION
+/* ---------------------------------------------------------------------------------------------------- */
+
     const displayConnectionForm = () => {
         document.getElementById('registerForm').classList.remove('hidden');
         document.getElementById('loginForm').classList.remove('hidden');
@@ -16,6 +20,7 @@ FONCTIONS
     const register = (formTag, nameTag, emailTag, passwordTag) => {
         // get form
         document.querySelector(formTag).addEventListener('submit', event => {
+            console.log('click');
             event.preventDefault();
 
         new FETCHrequest(
@@ -82,10 +87,16 @@ FONCTIONS
             console.log(jsonData);
             practices(jsonData);
             createPractice(jsonData);
+            goals(jsonData);
+            createGoal(jsonData);
         })
         .catch( jsonError => console.log(jsonError))
     };
 //
+
+/* ---------------------------------------------------------------------------------------------------- */
+/* PRACTICES
+/* ---------------------------------------------------------------------------------------------------- */
 
 // Create a practice
 
@@ -108,8 +119,8 @@ FONCTIONS
             'POST',
             {
                 sport: practiceTag.value,
-                goalId: data.goals.label,
-                userId: data.user._id
+/*                 goalId: data.goals.label,
+ */                userId: data.user._id
             }
         )
         .sendRequest()
@@ -132,12 +143,88 @@ FONCTIONS
         for (let i=0; i < collection.practices.length; i++){
         practicesUl.innerHTML += `
             <div>
-                <li>${collection.practices[i].sport}</li>
+                <li><button onclick="moreAboutPractice()">${collection.practices[i].sport}</button></li>
             </div>
         `;
         };
     }
 //
+
+
+/* ---------------------------------------------------------------------------------------------------- */
+/* GOALS
+/* ---------------------------------------------------------------------------------------------------- */
+
+    const moreAboutPractice = () => {
+        document.getElementById('practices').classList.add('hidden');
+        document.getElementById('goals').classList.remove('hidden');
+    };
+
+// Create a practice
+
+    const displayGoalForm = () => {
+        document.getElementById('createGoal').classList.remove('hidden');
+        document.getElementById('goalForm').classList.remove('hidden');
+    };
+
+    const createGoal = data => {
+
+        const formTag = document.querySelector('#goalForm');
+        const goalTag = document.querySelector('#goalForm [name="goal"]');
+        const statusTag = document.querySelectorAll('[name="status"]');
+
+        // get form
+        formTag.addEventListener('submit', event => {
+            let status = null;
+            event.preventDefault();
+
+            for (let i=0; i < statusTag.length; i++){
+                if(statusTag[i].checked){
+                    status = statusTag[i].value;
+                    console.log(status);
+                    break;
+                }
+            }
+
+
+        new FETCHrequest(
+            apiUrl + '/goal/create',
+            'POST',
+            {
+                label: goalTag.value,
+                status: status,
+                practiceId: data.practices._id,
+                userId: data.user._id
+            }
+        )
+        .sendRequest()
+        .then(jsonData => console.log(jsonData))
+        .catch(jsonError => console.log(jsonError))
+
+        setTimeout(() => {
+            userAccount();
+            document.getElementById('goalForm').classList.add('hidden');
+            }, 500)
+        })
+    };
+//
+
+
+// Display Goals by user
+    const goals = collection => {
+        goalsUl.innerHTML = '';
+
+        for (let i=0; i < collection.goals.length; i++){
+        goalsUl.innerHTML += `
+            <div>
+                <li>${collection.goals[i].label}</li>
+                <p>${collection.goals[i].status} </p>
+            </div>
+        `;
+        };
+    }
+//
+
 
 /*
 Attendre le chargement du DOM
@@ -145,12 +232,11 @@ Attendre le chargement du DOM
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Create a method if there is no practice = display button to create
-    // If there is alreade a practice = display the practice and new practice button
-
     if(localStorage.getItem('token') !== null){
         // Récupérer info user avec le token
         userAccount();
+        document.querySelector('#practices').classList.remove('hidden');
+        document.querySelector('#createPractice').classList.remove('hidden');
     }
     else {
         document.querySelector('#registerForm').classList.remove('hidden');

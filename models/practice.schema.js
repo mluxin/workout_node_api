@@ -7,7 +7,7 @@ const { Schema } = mongoose;
 */
 const practiceSchema = new Schema({
   sport: { type: String, required: true },
-  goalId: { type: String, required: false },
+/*   goalId: { type: String, required: false }, */
   userId: { type: String, required: true }
 });
 
