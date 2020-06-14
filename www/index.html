@@ -9,7 +9,7 @@
 <body>
   <header>
     <nav>
-      <h1>Welcome to your Sport's Journeys</h1>
+      <h1>PushYa</h1>
     </nav>
   </header>
   <main>
@@ -35,13 +35,17 @@
     <article id="welcome" class="hidden">
       <h2>Bienvenue sur [BLABLA]</h2>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis convallis velit nec purus ultrices accumsan. Fusce non purus semper, hendrerit elit aliquet, cursus sem. Morbi ultricies lorem tincidunt nisi laoreet vehicula. Suspendisse iaculis diam a nibh faucibus tincidunt.</p>
-      <h3>Commencez !</h3>
-      <button onclick="displayPracticeForm()">Créer une pratique</button>
+    </article>
+    <article id="practices">
+      <h3>Mes pratiques</h3>
+      <ul id="practicesUl">
+      </ul>
+      <button onclick="displayPracticeForm()">Ajouter une pratique</button>
     </article>
     <article>
       <section>
         <form action="#" id="practiceForm" class="hidden">
-          <h2>Selectionner une pratique sportive</h2>
+          <p>Renseignez une pratique sportive</p>
           <input type="text" name="practice" required minlength="2" placeholder="Yoga, cycling, boxe..." value="yoga">
           <button type="submit">Enregistrer</button>
         </form>

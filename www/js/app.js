@@ -79,39 +79,19 @@ FONCTIONS
             document.getElementById('connect').classList.add('hidden');
             document.getElementById('registerForm').classList.add('hidden');
             document.getElementById('loginForm').classList.add('hidden');
-            document.getElementById('welcome').classList.remove('hidden');
-            document.getElementById('practiceForm').classList.remove('hidden');
             console.log(jsonData);
-
-            if(document.getElementById('practiceForm').className != 'hidden') {
-                createPractice(jsonData);
-            }
+            practices(jsonData);
+            createPractice(jsonData);
         })
         .catch( jsonError => console.log(jsonError))
     };
 //
-
-/* // Display Practices by user
-    const practices = collection => {
-        practicesUl.innerHTML = '';
-
-        for (let i=0; i < collection.data.favorite.length; i++){
-        practicesUl.innerHTML += `
-            <div>
-                <li>${collection.data.favorite[i].title}
-                </li>
-            </div>
-        `;
-        document.getElementById('displaySearchSection').classList.add('hidden');
-    };
-// */
 
 // Create a practice
 
     // Display creation form
     const displayPracticeForm = () => {
         document.getElementById('practiceForm').classList.remove('hidden');
-        document.getElementById('welcome').classList.add('hidden');
     };
 
     const createPractice = data => {
@@ -135,8 +115,28 @@ FONCTIONS
         .sendRequest()
         .then(jsonData => console.log(jsonData))
         .catch(jsonError => console.log(jsonError))
+
+        setTimeout(() => {
+            userAccount();
+            document.getElementById('practiceForm').classList.add('hidden');
+            }, 500)
         })
     };
+//
+
+
+// Display Practices by user
+    const practices = collection => {
+        practicesUl.innerHTML = '';
+
+        for (let i=0; i < collection.practices.length; i++){
+        practicesUl.innerHTML += `
+            <div>
+                <li>${collection.practices[i].sport}</li>
+            </div>
+        `;
+        };
+    }
 //
 
 /*
@@ -170,4 +170,3 @@ document.addEventListener('DOMContentLoaded', () => {
         '#loginForm [name="password"]'
     );
 })
-//
