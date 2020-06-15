@@ -50,6 +50,7 @@
       <button onclick="displayGoalForm()">Ajouter un objectif</button>
       <section id="createGoal" class="hidden">
           <form action="#" id="goalForm" class="hidden">
+            <input type="hidden" id="practiceId">
             <p>Quels sont vos objectifs pour cette pratique ?</p>
             <input type="text" name="goal" required minlength="2" placeholder="Grand écart, endurance, choré ...">
             <p>Où en êtes-vous ?</p>
@@ -65,7 +66,6 @@
               <input type="radio" name="status" id="finished" value="terminé">
               <label for="finished">Terminé</label>
             </div>
-            <button type="submit">Enregistrer</button>
           </form>
       </section>
     </article>

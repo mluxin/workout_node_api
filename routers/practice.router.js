@@ -12,7 +12,7 @@ Routes definition
 */
 router.get('/all', practiceController.getAllPractices);
 router.post('/create', practiceController.createPractice);
-router.get('/:id', practiceController.getOnePractice);
+router.get('/:id', (req, res) => practiceController.getOnePractice(req.params.id, res, next));
 router.put('/:id', practiceController.updatePractice);
 router.delete('/:id', practiceController.deletePractice);
 //

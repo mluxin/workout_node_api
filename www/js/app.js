@@ -33,7 +33,7 @@ FONCTIONS
             }
         )
         .sendRequest()
-        .then(userRegistered())
+        .then()
         .catch(jsonError => console.log(jsonError))
         })
     };
@@ -62,7 +62,9 @@ FONCTIONS
         )
         .sendRequest()
         .then( jsonData => {
+            console.log(jsonData);
             localStorage.setItem('token', jsonData.token);
+            localStorage.setItem('userId', jsonData.userId);
             userAccount();
         })
         .catch( jsonError => console.log(jsonError))
@@ -85,10 +87,10 @@ FONCTIONS
             document.getElementById('registerForm').classList.add('hidden');
             document.getElementById('loginForm').classList.add('hidden');
             console.log(jsonData);
+            document.getElementById('practices').classList.remove('hidden');
             practices(jsonData);
             createPractice(jsonData);
             goals(jsonData);
-            createGoal(jsonData);
         })
         .catch( jsonError => console.log(jsonError))
     };
@@ -119,8 +121,7 @@ FONCTIONS
             'POST',
             {
                 sport: practiceTag.value,
-/*                 goalId: data.goals.label,
- */                userId: data.user._id
+                userId: data.user._id
             }
         )
         .sendRequest()
@@ -138,14 +139,15 @@ FONCTIONS
 
 // Display Practices by user
     const practices = collection => {
-        practicesUl.innerHTML = '';
+        document.getElementById('goals').classList.add('hidden');
 
+        practicesUl.innerHTML = '';
         for (let i=0; i < collection.practices.length; i++){
-        practicesUl.innerHTML += `
-            <div>
-                <li><button onclick="moreAboutPractice()" practice-id="${collection.practices[i]._id}" class="practice-id">${collection.practices[i].sport}</button></li>
-            </div>
-        `;
+            practicesUl.innerHTML += `
+                <li>
+                    <button onclick="moreAboutPractice('${collection.practices[i]._id}')" practice-id="${collection.practices[i]._id}" class="practiceButton">${collection.practices[i].sport}</button>
+                </li>
+            `;
         };
     }
 //
@@ -155,20 +157,22 @@ FONCTIONS
 /* GOALS
 /* ---------------------------------------------------------------------------------------------------- */
 
-    const moreAboutPractice = () => {
+    const moreAboutPractice = (praticeId) => {
         document.getElementById('practices').classList.add('hidden');
         document.getElementById('goals').classList.remove('hidden');
+        document.getElementById('practiceId').value = praticeId;
     };
 
-// Create a practice
+// Create a goal
 
     const displayGoalForm = () => {
+        let practiceId = document.getElementById('practiceId').value;
         document.getElementById('createGoal').classList.remove('hidden');
+        document.getElementById('goalForm').innerHTML += `<button type="submit" onclick="createGoal('${practiceId}')">Enregistrer</button>`;
         document.getElementById('goalForm').classList.remove('hidden');
     };
 
-    const createGoal = data => {
-
+    const createGoal = (practiceId) => {
         const formTag = document.querySelector('#goalForm');
         const goalTag = document.querySelector('#goalForm [name="goal"]');
         const statusTag = document.querySelectorAll('[name="status"]');
@@ -181,11 +185,9 @@ FONCTIONS
             for (let i=0; i < statusTag.length; i++){
                 if(statusTag[i].checked){
                     status = statusTag[i].value;
-                    console.log(status);
                     break;
                 }
             }
-
 
         new FETCHrequest(
             apiUrl + '/goal/create',
@@ -193,8 +195,8 @@ FONCTIONS
             {
                 label: goalTag.value,
                 status: status,
-                practiceId: data.practices._id,
-                userId: data.user._id
+                practiceId: practiceId,
+                userId: localStorage.getItem('userId')
             }
         )
         .sendRequest()
@@ -210,17 +212,25 @@ FONCTIONS
 //
 
 
-// Display Goals by user
+// Display Goals by practice and user
     const goals = collection => {
-        goalsUl.innerHTML = '';
+        let practiceId = '';
+        for (let button of document.querySelectorAll('.practiceButton')) {
+            button.addEventListener('click', () => {
+                practiceId = button.getAttribute('practice-id');
 
-        for (let i=0; i < collection.goals.length; i++){
-        goalsUl.innerHTML += `
-            <div>
-                <li>${collection.goals[i].label}</li>
-                <p>${collection.goals[i].status} </p>
-            </div>
-        `;
+                goalsUl.innerHTML = '';
+                for (let i=0; i < collection.goals.length; i++) {
+                    if (collection.goals[i].practiceId === practiceId) {
+                        goalsUl.innerHTML += `
+                            <div>
+                                <li>${collection.goals[i].label}</li>
+                                <p>${collection.goals[i].status} </p>
+                            </div>
+                        `;
+                    }
+                };
+            })
         };
     }
 //
@@ -239,9 +249,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#createPractice').classList.remove('hidden');
     }
     else {
+        displayConnectionForm();
         document.querySelector('#registerForm').classList.remove('hidden');
         document.querySelector('#loginForm').classList.remove('hidden');
-        displayConnectionForm();
     }
 
     register(

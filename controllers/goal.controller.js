@@ -36,7 +36,7 @@ exports.getAllGoals = (req, res, next) => {
 CRUD: Get one goal
 */
 exports.getOneGoal = (req, res, next) => {
-  goalModel.findOne( { _id: req.params.id} )
+  goalModel.findOne( {_id: req.params.id} )
 
     .then(goal => {
       Promise.all([

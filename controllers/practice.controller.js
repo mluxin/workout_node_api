@@ -14,7 +14,6 @@ exports.createPractice = (req, res, next) => {
 
   const practice = new practiceModel ({
     sport: req.body.sport,
-    goalId: req.body.goalId,
     userId: req.body.userId,
   });
   practice.save()
@@ -28,7 +27,14 @@ CRUD: Get all the practices
 */
 exports.getAllPractices = (req, res, next) => {
   practiceModel.find()
-    .then( (practices) => { res.status(200).json(practices)} )
+    .then( async practices => {
+      let dataArray = [];
+      for (let item of practices) {
+        const practice = await fetchOnePractice(item._id);
+        dataArray.push(practice);
+      }
+      return res.status(200).json({ data:dataArray })
+    })
     .catch( (error) => { res.status(400).json({ error:error })} );
 };
 //
@@ -36,8 +42,9 @@ exports.getAllPractices = (req, res, next) => {
 /*
 CRUD: Get one practice
 */
-exports.getOnePractice = (req, res, next) => {
-  practiceModel.findOne( { _id: req.params.id} )
+exports.getOnePractice = (id, res, next) => {
+  console.log(id);
+  practiceModel.findOne( { _id: id} )
 
     .then(practice => {
       Promise.all([
@@ -61,6 +68,22 @@ exports.getOnePractice = (req, res, next) => {
     })
     .catch(error => res.status(404).json({ error }));
 };
+
+  const fetchOnePractice = id => {
+    return new Promise ((resolve, reject) => {
+      Promise.all([
+        practiceModel.findById(id),
+        Goal.find({ practiceId: id }),
+        Workout.find({ practiceId: id })
+      ])
+      .then((apiResponse) => {
+        return resolve (apiResponse);
+      })
+      .catch((apiResponse) => {
+        return reject(apiResponse);
+      });
+    })
+  }
 //
 
 /*
