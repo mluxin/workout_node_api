@@ -44,29 +44,79 @@
           </form>
       </section>
     </article>
-    <article id="goals" class="hidden">
-      <h3>Mes Objectifs</h3>
-      <ul id="goalsUl"></ul>
-      <button onclick="displayGoalForm()">Ajouter un objectif</button>
-      <section id="createGoal" class="hidden">
-          <form action="#" id="goalForm" class="hidden">
-            <input type="hidden" id="practiceId">
-            <p>Quels sont vos objectifs pour cette pratique ?</p>
-            <input type="text" name="goal" required minlength="2" placeholder="Grand écart, endurance, choré ...">
-            <p>Où en êtes-vous ?</p>
-            <div>
-              <input type="radio" name="status" id="notbegun" value="pas commencé">
-              <label for="notbegun">Pas commencé</label>
-            </div>
-            <div>
-              <input type="radio" name="status" id="inprogress" value="en cours">
-              <label for="inprogress">Progress</label>
-            </div>
-            <div>
-              <input type="radio" name="status" id="finished" value="terminé">
-              <label for="finished">Terminé</label>
-            </div>
-          </form>
+    <article>
+      <section id="goalPage" class="hidden">
+        <div onclick="displayGoals()" id="displayGoals" class="hidden">
+          <h3>Mes objectifs</h3>
+        </div>
+        <div id="goals" class="hidden">
+          <ul id="goalsUl"></ul>
+          <button onclick="displayGoalForm()">Ajouter un objectif</button>
+          <div id="createGoal" class="hidden">
+            <form action="#" id="goalForm" class="hidden">
+              <input type="hidden" id="practiceId">
+              <p>Quels sont vos objectifs pour cette pratique ?</p>
+              <input type="text" name="goal" required minlength="2" placeholder="Grand écart, endurance, choré ...">
+              <p>Où en êtes-vous ?</p>
+              <div>
+                <input type="radio" name="status" id="notbegun" value="pas commencé">
+                <label for="notbegun">Pas commencé</label>
+              </div>
+              <div>
+                <input type="radio" name="status" id="inprogress" value="en cours">
+                <label for="inprogress">Progress</label>
+              </div>
+              <div>
+                <input type="radio" name="status" id="finished" value="terminé">
+                <label for="finished">Terminé</label>
+              </div>
+            </form>
+          </div>
+      </section>
+      <section id="workoutPage" class="hidden">
+        <div onclick="displayWorkouts()" id="displayWorkouts" class="hidden">
+          <h3>Mes entrainements</h3>
+        </div>
+        <div id="workouts" class="hidden">
+          <ul id="workoutsUl"></ul>
+          <button onclick="displayWorkoutForm()">Ajouter un entrainement</button>
+          <div id="createWorkout" class="hidden">
+            <form action="#" id="workoutForm" class="hidden">
+              <input type="hidden" id="practiceId">
+              <p>Alors ?</p>
+              <input type="text" name="workout_title" required minlength="2" placeholder="Ajouter un titre">
+              <p>Date</p>
+              <input type="date" name="workout_date">
+              <p>Durée</p>
+              <input type="time" name="workout_time">
+              <p>Intensité :</p>
+              <div>
+                <input type="radio" name="intensity" id="calm" value="detente">
+                <label for="notbegun">Detente</label>
+              </div>
+              <div>
+                <input type="radio" name="intensity" id="moderate" value="on est bien">
+                <label for="inprogress">On est bien</label>
+              </div>
+              <div>
+                <input type="radio" name="intensity" id="high" value="élévé">
+                <label for="finished">On pète tout!</label>
+              </div>
+              <p>Mood :</p>
+              <div>
+                <input type="radio" name="mood" id="notGood" value="bof">
+                <label for="notbegun">Bof</label>
+              </div>
+              <div>
+                <input type="radio" name="mood" id="cool" value="cool">
+                <label for="inprogress">Cool</label>
+              </div>
+              <div>
+                <input type="radio" name="mood" id="soGood" value="on fire!">
+                <label for="finished">On fire!</label>
+              </div>
+            </form>
+          </div>
       </section>
     </article>
   </main>

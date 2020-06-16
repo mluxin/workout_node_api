@@ -154,14 +154,30 @@ FONCTIONS
 
 
 /* ---------------------------------------------------------------------------------------------------- */
-/* GOALS
+/* PRACTICE'S DASHBOARD
 /* ---------------------------------------------------------------------------------------------------- */
+
+    const displayGoals = () => {
+        document.getElementById('goals').classList.remove('hidden');
+    }
+
+    const displayWorkouts = () => {
+        document.getElementById('workout').classList.remove('hidden');
+    }
 
     const moreAboutPractice = (praticeId) => {
         document.getElementById('practices').classList.add('hidden');
-        document.getElementById('goals').classList.remove('hidden');
+        document.getElementById('goalPage').classList.remove('hidden');
+        document.getElementById('displayGoals').classList.remove('hidden');
+        document.getElementById('workoutPage').classList.remove('hidden');
+        document.getElementById('displayWorkouts').classList.remove('hidden');
         document.getElementById('practiceId').value = praticeId;
     };
+
+
+/* ---------------------------------------------------------------------------------------------------- */
+/* GOALS
+/* ---------------------------------------------------------------------------------------------------- */
 
 // Create a goal
 
@@ -235,6 +251,13 @@ FONCTIONS
     }
 //
 
+
+/* ---------------------------------------------------------------------------------------------------- */
+/* WORKOUTS
+/* ---------------------------------------------------------------------------------------------------- */
+
+
+//
 
 /*
 Attendre le chargement du DOM
