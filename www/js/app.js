@@ -91,6 +91,7 @@ FONCTIONS
             displayPractices(jsonData);
             createPractice(jsonData);
             displayGoals(jsonData);
+            createWorkout(jsonData);
         })
         .catch( jsonError => console.log(jsonError))
     };
@@ -157,15 +158,6 @@ FONCTIONS
 /* PRACTICE'S DASHBOARD
 /* ---------------------------------------------------------------------------------------------------- */
 
-    const displayGoalsPart = () => {
-        document.getElementById('goals').classList.remove('hidden');
-        document.getElementById('workoutPage').classList.add('hidden');
-    }
-
-    const displayWorkouts = () => {
-        document.getElementById('workout').classList.remove('hidden');
-    }
-
     const moreAboutPractice = (praticeId) => {
         document.getElementById('practices').classList.add('hidden');
         document.getElementById('goalPage').classList.remove('hidden');
@@ -174,6 +166,17 @@ FONCTIONS
         document.getElementById('displayWorkouts').classList.remove('hidden');
         document.getElementById('practiceId').value = praticeId;
     };
+
+    const displayGoalsPart = () => {
+        document.getElementById('goals').classList.remove('hidden');
+        document.getElementById('workoutPage').classList.add('hidden');
+    }
+
+    const displayWorkoutsPart = () => {
+        document.getElementById('workouts').classList.remove('hidden');
+        document.getElementById('workoutPage').classList.remove('hidden');
+        document.getElementById('goalPage').classList.add('hidden');
+    }
 
 
 /* ---------------------------------------------------------------------------------------------------- */
@@ -258,7 +261,69 @@ FONCTIONS
 /* WORKOUTS
 /* ---------------------------------------------------------------------------------------------------- */
 
+// Create a workout
 
+    const displayWorkoutForm = () => {
+        let practiceIdforWorkout = document.getElementById('practiceIdforWorkout').value;
+        document.getElementById('createWorkout').classList.remove('hidden');
+        document.getElementById('workoutForm').innerHTML += `<button type="submit" onclick="createWorkout('${practiceIdforWorkout}')">Enregistrer</button>`;
+        document.getElementById('workoutForm').classList.remove('hidden');
+    };
+
+    const createWorkout = (practiceIdforWorkout) => {
+        const formTag = document.querySelector('#workoutForm');
+        const titleTag = document.querySelector('#workoutForm [name="workout_title"]');
+        const dateTag = document.querySelector('#workoutForm [name="workout_date"]');
+        const durationTag = document.querySelector('#workoutForm [name="workout_time"]');
+        const commentTag = document.querySelector('#workoutForm [name="workout_comment"]');
+        const intensityTag = document.querySelectorAll('[name="intensity"]');
+        const moodTag = document.querySelectorAll('[name="mood"]');
+
+        // get form
+        formTag.addEventListener('submit', event => {
+            let intensity = null;
+            let mood = null;
+            event.preventDefault();
+
+            for (let i=0; i < intensityTag.length; i++){
+                if(intensityTag[i].checked){
+                    intensity = intensityTag[i].value;
+                    break;
+                }
+            }
+
+            for (let i=0; i < moodTag.length; i++){
+                if(moodTag[i].checked){
+                    mood = moodTag[i].value;
+                    break;
+                }
+            }
+
+        new FETCHrequest(
+            apiUrl + '/workout/create',
+            'POST',
+            {
+                title: titleTag.value,
+                date: dateTag.value,
+                duration: durationTag.value,
+                comment: commentTag.value,
+                intensity: intensity,
+                mood: mood,
+                practiceId: practiceIdforWorkout,
+                userId: localStorage.getItem('userId')
+            }
+        )
+        .sendRequest()
+        .then(jsonData => console.log(jsonData))
+        .catch(jsonError => console.log(jsonError))
+
+        setTimeout(() => {
+            userAccount();
+            document.getElementById('workoutForm').classList.add('hidden');
+            }, 500)
+        })
+        console.log(titleTag.value, dateTag.value, durationTag.value);
+    };
 //
 
 /*

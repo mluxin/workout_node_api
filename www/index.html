@@ -74,7 +74,7 @@
           </div>
       </section>
       <section id="workoutPage" class="hidden">
-        <div onclick="displayWorkouts()" id="displayWorkouts" class="hidden">
+        <div onclick="displayWorkoutsPart()" id="displayWorkouts" class="hidden">
           <h3>Mes entrainements</h3>
         </div>
         <div id="workouts" class="hidden">
@@ -82,13 +82,15 @@
           <button onclick="displayWorkoutForm()">Ajouter un entrainement</button>
           <div id="createWorkout" class="hidden">
             <form action="#" id="workoutForm" class="hidden">
-              <input type="hidden" id="">
+              <input type="hidden" id="practiceIdforWorkout">
               <p>Alors ?</p>
               <input type="text" name="workout_title" required minlength="2" placeholder="Ajouter un titre">
               <p>Date</p>
               <input type="date" name="workout_date">
               <p>Durée</p>
-              <input type="time" name="workout_time">
+              <input type="number" name="workout_time">
+              <p>Commentaire</p>
+              <input type="text" name="workout_comment">
               <p>Intensité :</p>
               <div>
                 <input type="radio" name="intensity" id="calm" value="detente">
