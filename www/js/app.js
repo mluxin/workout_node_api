@@ -33,7 +33,7 @@ FONCTIONS
             }
         )
         .sendRequest()
-        .then()
+        .then( jsonData => console.log(jsonData))
         .catch(jsonError => console.log(jsonError))
         })
     };
@@ -87,10 +87,10 @@ FONCTIONS
             document.getElementById('registerForm').classList.add('hidden');
             document.getElementById('loginForm').classList.add('hidden');
             console.log(jsonData);
-            document.getElementById('practices').classList.remove('hidden');
-            practices(jsonData);
+            /* document.getElementById('practices').classList.remove('hidden'); */
+            displayPractices(jsonData);
             createPractice(jsonData);
-            goals(jsonData);
+            displayGoals(jsonData);
         })
         .catch( jsonError => console.log(jsonError))
     };
@@ -138,7 +138,7 @@ FONCTIONS
 
 
 // Display Practices by user
-    const practices = collection => {
+    const displayPractices = collection => {
         document.getElementById('goals').classList.add('hidden');
 
         practicesUl.innerHTML = '';
@@ -157,8 +157,9 @@ FONCTIONS
 /* PRACTICE'S DASHBOARD
 /* ---------------------------------------------------------------------------------------------------- */
 
-    const displayGoals = () => {
+    const displayGoalsPart = () => {
         document.getElementById('goals').classList.remove('hidden');
+        document.getElementById('workoutPage').classList.add('hidden');
     }
 
     const displayWorkouts = () => {
@@ -229,7 +230,8 @@ FONCTIONS
 
 
 // Display Goals by practice and user
-    const goals = collection => {
+    const displayGoals = collection => {
+
         let practiceId = '';
         for (let button of document.querySelectorAll('.practiceButton')) {
             button.addEventListener('click', () => {
@@ -272,9 +274,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#createPractice').classList.remove('hidden');
     }
     else {
+       /*  document.getElementById('practices').classList.add('hidden'); */
         displayConnectionForm();
-        document.querySelector('#registerForm').classList.remove('hidden');
-        document.querySelector('#loginForm').classList.remove('hidden');
     }
 
     register(
