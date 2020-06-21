@@ -7,6 +7,10 @@ DECLARATIONS
 FONCTIONS
 */
 
+const home = () => {
+    userAccount();
+};
+
 /* ---------------------------------------------------------------------------------------------------- */
 /* USER CONNECTION
 /* ---------------------------------------------------------------------------------------------------- */
@@ -37,14 +41,6 @@ FONCTIONS
         .catch(jsonError => console.log(jsonError))
         })
     };
-
-    /* const userRegistered = () => {
-        registerAdded.innerHTML += `
-        <p> You've been well registered.<br/><span>Please log you in to access your session</span></p>
-        `;
-        document.getElementById('registerForm').classList.add('hidden');
-        document.getElementById('registerAdded').classList.add('show');
-    }; */
 //
 
 // LOGIN
@@ -86,8 +82,8 @@ FONCTIONS
             document.getElementById('connect').classList.add('hidden');
             document.getElementById('registerForm').classList.add('hidden');
             document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('practices').classList.remove('hidden');
             console.log(jsonData);
-            /* document.getElementById('practices').classList.remove('hidden'); */
             displayPractices(jsonData);
             createPractice(jsonData);
             displayGoals(jsonData);
@@ -140,7 +136,7 @@ FONCTIONS
 
 // Display Practices by user
     const displayPractices = collection => {
-        document.getElementById('goals').classList.add('hidden');
+        document.getElementById('goalArticle').classList.add('hidden');
 
         practicesUl.innerHTML = '';
         for (let i=0; i < collection.practices.length; i++){
@@ -160,6 +156,7 @@ FONCTIONS
 
     const moreAboutPractice = (praticeId) => {
         document.getElementById('practices').classList.add('hidden');
+        document.getElementById('goalArticle').classList.remove('hidden');
         document.getElementById('goalPage').classList.remove('hidden');
         document.getElementById('displayGoals').classList.remove('hidden');
         document.getElementById('workoutPage').classList.remove('hidden');
@@ -168,8 +165,10 @@ FONCTIONS
     };
 
     const displayGoalsPart = () => {
-        document.getElementById('goals').classList.remove('hidden');
+/*         document.getElementById('goalArticle').classList.add('hidden');
+ */        document.getElementById('goals').classList.remove('hidden');
         document.getElementById('workoutPage').classList.add('hidden');
+        document.getElementById('displayGoals').classList.add('hidden');
     }
 
     const displayWorkoutsPart = () => {
@@ -187,8 +186,8 @@ FONCTIONS
 
     const displayGoalForm = () => {
         let practiceId = document.getElementById('practiceId').value;
+        document.getElementById('goalForm').innerHTML += `<button type="submit" onclick="createGoal('${practiceId}')" class="btn btn-primary">Enregistrer</button>`;
         document.getElementById('createGoal').classList.remove('hidden');
-        document.getElementById('goalForm').innerHTML += `<button type="submit" onclick="createGoal('${practiceId}')">Enregistrer</button>`;
         document.getElementById('goalForm').classList.remove('hidden');
     };
 
@@ -246,7 +245,7 @@ FONCTIONS
                         goalsUl.innerHTML += `
                             <div>
                                 <li>${collection.goals[i].label}</li>
-                                <p>${collection.goals[i].status} </p>
+                                <p class="status">${collection.goals[i].status} </p>
                             </div>
                         `;
                     }
@@ -266,7 +265,7 @@ FONCTIONS
     const displayWorkoutForm = () => {
         let practiceIdforWorkout = document.getElementById('practiceIdforWorkout').value;
         document.getElementById('createWorkout').classList.remove('hidden');
-        document.getElementById('workoutForm').innerHTML += `<button type="submit" onclick="createWorkout('${practiceIdforWorkout}')">Enregistrer</button>`;
+        document.getElementById('workoutForm').innerHTML += `<button type="submit" class="btn btn-primary" onclick="createWorkout('${practiceIdforWorkout}')">Enregistrer</button>`;
         document.getElementById('workoutForm').classList.remove('hidden');
     };
 
@@ -339,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#createPractice').classList.remove('hidden');
     }
     else {
-       /*  document.getElementById('practices').classList.add('hidden'); */
+        document.getElementById('practices').classList.add('hidden');
         displayConnectionForm();
     }
 

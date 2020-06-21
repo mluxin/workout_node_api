@@ -3,55 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sport's journey</title>
+  <title>PushYa</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
   <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
   <header>
     <nav>
-      <h1>PushYa</h1>
+      <h1 onclick="home()">PushYa</h1>
     </nav>
   </header>
   <main>
     <article>
       <div>
-        <button id="connect" onclick="displayConnectionForm()">Se connecter</button>
+        <button id="connect" onclick="displayConnectionForm()" class="btn btn-dark">Se connecter</button>
       </div>
       <form action="#" id="registerForm" class="hidden">
+        <div class="form-group"></div>
           <h2>Je suis nouveau ici</h2>
             <input type="text" name="name" required minlength="2" placeholder="Name">
             <input type="text" name="email" required minlength="5" placeholder="Email">
             <input type="password" name="password" required minlength="5" placeholder="Password">
-            <button type="submit">Créer</button>
+            <button type="submit" class="btn btn-primary">Créer</button>
+        </div>
       </form>
       <div id="registerAdded"></div>
       <form action="#" id="loginForm" class="hidden">
-          <h2>Déjà inscrit ? Connecter vous</h2>
+        <div class="form-group"></div>
+          <h2>Déjà inscrit ? <br/>Connecter vous</h2>
           <input type="text" name="email" required minlength="5" placeholder="Your email">
           <input type="password" name="password" required minlength="5" placeholder="Your password">
-          <button type="submit">Connecter</button>
+          <button type="submit" class="btn btn-primary">Connecter</button>
+        </div>
       </form>
     </article>
-    <article id="practices" class="hidden">
-      <h3>Mes pratiques</h3>
-      <ul id="practicesUl"></ul>
-      <button onclick="displayPracticeForm()">Ajouter une pratique</button>
+    <article>
+      <section id="practices" class="hidden">
+        <h3>Mes pratiques</h3>
+        <ul id="practicesUl"></ul>
+        <button onclick="displayPracticeForm()" class="btn btn-secondary">Ajouter une pratique</button>
+      </section>
       <section id="createPractice" class="hidden">
           <form action="#" id="practiceForm" class="hidden">
             <p>Renseignez une pratique sportive</p>
             <input type="text" name="practice" required minlength="2" placeholder="Yoga, cycling, boxe..." value="yoga">
-            <button type="submit">Enregistrer</button>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
           </form>
       </section>
     </article>
-    <article>
+    <article id="goalArticle">
       <section id="goalPage" class="hidden">
         <div onclick="displayGoalsPart()" id="displayGoals" class="hidden">
           <h3>Mes objectifs</h3>
         </div>
         <div id="goals" class="hidden">
+          <h4>Objectifs</h4>
           <ul id="goalsUl"></ul>
-          <button onclick="displayGoalForm()">Ajouter un objectif</button>
+          <button onclick="displayGoalForm()" class="btn btn-secondary">Ajouter un objectif</button>
           <div id="createGoal" class="hidden">
             <form action="#" id="goalForm" class="hidden">
               <input type="hidden" id="practiceId">
@@ -79,7 +87,7 @@
         </div>
         <div id="workouts" class="hidden">
           <ul id="workoutsUl"></ul>
-          <button onclick="displayWorkoutForm()">Ajouter un entrainement</button>
+          <button onclick="displayWorkoutForm()" class="btn btn-secondary">Ajouter un entrainement</button>
           <div id="createWorkout" class="hidden">
             <form action="#" id="workoutForm" class="hidden">
               <input type="hidden" id="practiceIdforWorkout">

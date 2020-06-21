@@ -1,3 +1,80 @@
+body {
+  padding: 2rem;
+  background-color: rgb(246, 245, 245);
+}
+
+input {
+  border: none;
+  padding: 8px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.practiceButton {
+  border: none;
+  text-align: left;
+  width: 70%;
+  padding: 5%;
+  height: 100px;
+  border-radius: 5px;
+  font-weight: bold;
+  color: white;
+  background-color: blueviolet;
+  transition-duration: 0.4s;
+}
+
+#displayGoals, #displayWorkouts {
+  margin-top: 30px;
+  background-color: white;
+  margin-top: 30px;
+  width: 100%;
+  height: 100px;
+  padding-left: 8px;
+  align-items: center;
+}
+
+.status {
+  font-style: italic;
+  color: blueviolet;
+}
+
+#goals {
+  margin-top: 20px;
+}
+
+#goalsUl, #workoutsUl {
+  list-style: square;
+  margin-left: 20px;
+}
+
+
+@media (min-width: 320px) and (max-width: 480px) {
+  input {
+    margin-bottom: 5px;
+    width: 80%;
+  }
+
+  #notbegun, #inprogress, #finished, #calm, #moderate, #high, #notGood, #cool, #soGood {
+    width: inherit;
+  }
+
+  button {
+    margin-top: 15px;
+    width: 50%;
+  }
+
+  form {
+    margin-top: 30px;
+  }
+
+  #practices {
+    margin-top: 30px;
+  }
+}
+
 .hidden{
   display: none;
 }
